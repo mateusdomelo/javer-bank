@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClienteServiceImplTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jacoco.exec</a> &gt; <a href="index.source.html" class="el_package">io.github.mateusdomelo.javer.service.impl</a> &gt; <span class="el_source">ClienteServiceImplTest.java</span></div><h1>ClienteServiceImplTest.java</h1><pre class="source lang-java linenums">package io.github.mateusdomelo.javer.service.impl;
+
+import io.github.mateusdomelo.javer.client.ClienteFeignClient;
+import io.github.mateusdomelo.javer.domain.entity.Cliente;
+import io.github.mateusdomelo.javer.exception.ClienteNotFoundException;
+import io.github.mateusdomelo.javer.exception.NotFoundException;
+import io.github.mateusdomelo.javer.rest.dto.ClienteScoreDTO;
+import io.github.mateusdomelo.javer.service.ClienteService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@SpringBootTest
+<span class="fc" id="L18">class ClienteServiceImplTest {</span>
+
+    @MockBean
+    private ClienteFeignClient feignMock;
+
+    @Autowired
+    ClienteService clienteService;
+
+    @Test
+    void obterPorId_ShouldReturnClienteFromFeignClient() {
+<span class="fc" id="L28">        Long id = 1L;</span>
+<span class="fc" id="L29">        Cliente cliente = new Cliente();</span>
+<span class="fc" id="L30">        cliente.setId(id);</span>
+
+        /* Actions */
+<span class="fc" id="L33">        when(feignMock.obterPorId(id)).thenReturn(cliente);</span>
+<span class="fc" id="L34">        Cliente result = clienteService.obterPorId(id);</span>
+
+        /* Verifications */
+<span class="fc" id="L37">        assertEquals(id, result.getId());</span>
+<span class="fc" id="L38">        assertInstanceOf(Cliente.class, result);</span>
+<span class="fc" id="L39">    }</span>
+
+    @Test
+    void obterPorId_WithNonExistingCliente_ShouldThrowClienteNotFoundException() {
+<span class="fc" id="L43">        Long id = 1L;</span>
+
+        /* Actions */
+<span class="fc" id="L46">        when(feignMock.obterPorId(id)).thenThrow(new NotFoundException(&quot;&quot;));</span>
+
+        /* Verifications */
+<span class="pc" id="L49">        assertThrows(ClienteNotFoundException.class, () -&gt; clienteService.obterPorId(id));</span>
+<span class="fc" id="L50">    }</span>
+
+    @Test
+    void salvar_ShouldReturnClienteFromFeignClient() {
+<span class="fc" id="L54">        Cliente cliente = new Cliente();</span>
+
+        /* Actions */
+<span class="fc" id="L57">        when(clienteService.salvar(cliente)).thenReturn(cliente);</span>
+<span class="fc" id="L58">        Cliente result = clienteService.salvar(cliente);</span>
+
+        /* Verifications */
+<span class="fc" id="L61">        assertEquals(cliente, result);</span>
+<span class="fc" id="L62">        assertInstanceOf(Cliente.class, result);</span>
+<span class="fc" id="L63">    }</span>
+
+    @Test
+    void atualizar_ShouldHaveSuccessFromFeignClient() {
+<span class="fc" id="L67">        Long id = 1L;</span>
+<span class="fc" id="L68">        Cliente cliente = new Cliente();</span>
+
+        /* Actions */
+<span class="fc" id="L71">        doNothing().when(feignMock).atualizar(id, cliente);</span>
+
+<span class="fc" id="L73">        clienteService.atualizar(id, cliente);</span>
+
+        /* Verifications */
+<span class="fc" id="L76">        verify(feignMock, atMostOnce()).atualizar(id, cliente);</span>
+<span class="fc" id="L77">    }</span>
+
+    @Test
+    void atualizar_WithNonExistingCliente_ShouldThrowClienteNotFoundException() {
+<span class="fc" id="L81">        Long id = 1L;</span>
+<span class="fc" id="L82">        Cliente cliente = new Cliente();</span>
+
+        /* Actions */
+<span class="fc" id="L85">        doThrow(new NotFoundException(&quot;&quot;)).when(feignMock).atualizar(id, cliente);</span>
+
+        /* Verifications */
+<span class="pc" id="L88">        assertThrows(NotFoundException.class, () -&gt; clienteService.atualizar(id, cliente));</span>
+<span class="fc" id="L89">    }</span>
+
+    @Test
+    void excluir_ShouldHaveSuccessFromFeignClient() {
+<span class="fc" id="L93">        Long id = 1L;</span>
+
+        /* Actions */
+<span class="fc" id="L96">        doNothing().when(feignMock).excluir(id);</span>
+<span class="fc" id="L97">        clienteService.excluir(id);</span>
+
+        /* Verifications */
+<span class="fc" id="L100">        verify(feignMock, atMostOnce()).excluir(id);</span>
+<span class="fc" id="L101">    }</span>
+
+    @Test
+    void excluir_WithNonExistingCliente_ShouldThrowClienteNotFoundException() {
+<span class="fc" id="L105">        Long id = 1L;</span>
+
+        /* Actions */
+<span class="fc" id="L108">        doThrow(new NotFoundException(&quot;&quot;)).when(feignMock).excluir(id);</span>
+
+        /* Verifications */
+<span class="pc" id="L111">        assertThrows(ClienteNotFoundException.class, () -&gt; clienteService.excluir(id));</span>
+<span class="fc" id="L112">    }</span>
+
+    @Test
+    void obterScore_ShouldReturnClienteScoreDAOFromFeignClient() {
+<span class="fc" id="L116">        Long id = 1L;</span>
+<span class="fc" id="L117">        Cliente cliente = new Cliente();</span>
+<span class="fc" id="L118">        cliente.setNome(&quot;Some Name&quot;);</span>
+<span class="fc" id="L119">        cliente.setScoreCredito(100);</span>
+<span class="fc" id="L120">        cliente.setSaldoCc(100);</span>
+
+        /* Actions */
+<span class="fc" id="L123">        when(feignMock.obterPorId(id)).thenReturn(cliente);</span>
+<span class="fc" id="L124">        ClienteScoreDTO result = clienteService.obterScore(id);</span>
+
+        /* Verifications */
+<span class="fc" id="L127">        assertInstanceOf(ClienteScoreDTO.class, result);</span>
+<span class="fc" id="L128">        assertEquals(cliente.getNome(), result.getNome());</span>
+<span class="fc" id="L129">        assertEquals(cliente.getScoreCredito(), result.getScore());</span>
+<span class="fc" id="L130">    }</span>
+
+    @Test
+    void obterScore_WithNonExistingCliente_ShouldThrowClienteNotFoundException() {
+<span class="fc" id="L134">        Long id = 1L;</span>
+
+        /* Actions */
+<span class="fc" id="L137">        when(feignMock.obterPorId(id)).thenThrow(NotFoundException.class);</span>
+
+        /* Verifications */
+<span class="pc" id="L140">        assertThrows(ClienteNotFoundException.class, () -&gt; clienteService.obterScore(id));</span>
+<span class="fc" id="L141">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -13,7 +13,7 @@ public class RetrieveErrorDecoder implements ErrorDecoder {
     public Exception decode(String methodKey, Response response) {
         return switch (response.status()) {
             case 400 -> new BadRequestException("Bad Request");
-            case 404 -> new NotFoundException("Not found");
+            case 404 -> new NotFoundException("Not Found");
             case 500 -> new FeignException.BadRequest(
                     "Occurred a server-side error",
                     response.request(),
