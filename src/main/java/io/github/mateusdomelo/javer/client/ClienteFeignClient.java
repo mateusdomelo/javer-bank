@@ -1,7 +1,7 @@
 package io.github.mateusdomelo.javer.client;
 
 import io.github.mateusdomelo.javer.domain.entity.Cliente;
-import io.github.mateusdomelo.javer.rest.dto.ClienteScoreDAO;
+import io.github.mateusdomelo.javer.rest.dto.ClienteScoreDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import static org.springframework.http.HttpStatus.*;
 
@@ -30,5 +30,5 @@ public interface ClienteFeignClient {
 
     @GetMapping("{id}/score")
     @ResponseStatus(OK)
-    ClienteScoreDAO obterScore(@PathVariable Long id);
+    ClienteScoreDTO obterScore(@PathVariable Long id);
 }
