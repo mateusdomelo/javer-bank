@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ControllerAdviceTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jacoco.exec</a> &gt; <a href="index.source.html" class="el_package">io.github.mateusdomelo.javer.rest.controller</a> &gt; <span class="el_source">ControllerAdviceTest.java</span></div><h1>ControllerAdviceTest.java</h1><pre class="source lang-java linenums">package io.github.mateusdomelo.javer.rest.controller;
+
+import io.github.mateusdomelo.javer.exception.ClienteNotFoundException;
+import io.github.mateusdomelo.javer.rest.ApiFieldErrors;
+import io.github.mateusdomelo.javer.rest.RequestErrors;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+@SpringBootTest
+<span class="fc" id="L22">class ControllerAdviceTest {</span>
+    @Autowired
+    private ControllerAdvice controllerAdvice;
+
+    @Test
+    void handleClienteNotFoundException_shouldReturnRequestErrors() {
+        /* Setup */
+<span class="fc" id="L29">        ClienteNotFoundException exception = new ClienteNotFoundException(1L);</span>
+<span class="fc" id="L30">        String exceptionMsg = &quot;Cliente não encontrado com o ID '1'&quot;;</span>
+
+        /* Actions */
+<span class="fc" id="L33">        RequestErrors result = controllerAdvice.handleClienteNotFoundException(exception);</span>
+
+        /* Verifications */
+<span class="fc" id="L36">        assertInstanceOf(RequestErrors.class, result);</span>
+<span class="fc" id="L37">        assertEquals(exceptionMsg, result.getResponseMessage());</span>
+<span class="fc" id="L38">    }</span>
+
+    @Test
+    void handleMethodArgumentNotValidException_shouldReturnApiFieldErrors() {
+<span class="fc" id="L42">        String errorMessage = &quot;Some field validation error message&quot;;</span>
+<span class="fc" id="L43">        ObjectError error = new ObjectError(&quot;validationError&quot;, errorMessage);</span>
+<span class="fc" id="L44">        BindingResult bindingResult = new BeanPropertyBindingResult(null, &quot;test&quot;);</span>
+<span class="fc" id="L45">        bindingResult.addError(error);</span>
+<span class="fc" id="L46">        MethodArgumentNotValidException exception = new MethodArgumentNotValidException(</span>
+                null,
+                bindingResult
+        );
+
+<span class="fc" id="L51">        ApiFieldErrors result = controllerAdvice.handleMethodArgumentNotValidException(exception);</span>
+
+<span class="fc" id="L53">        assertInstanceOf(ApiFieldErrors.class, result);</span>
+<span class="fc" id="L54">        assertEquals(1, result.errors().size());</span>
+<span class="fc" id="L55">        assertEquals(errorMessage, result.errors().get(0));</span>
+<span class="fc" id="L56">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

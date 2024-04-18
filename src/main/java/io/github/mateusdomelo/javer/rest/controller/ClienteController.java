@@ -1,17 +1,19 @@
 package io.github.mateusdomelo.javer.rest.controller;
 
 import io.github.mateusdomelo.javer.domain.entity.Cliente;
-import io.github.mateusdomelo.javer.rest.dto.ClienteScoreDAO;
+import io.github.mateusdomelo.javer.rest.dto.ClienteScoreDTO;
 import io.github.mateusdomelo.javer.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import lombok.Generated;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping(value = "/api/clientes")
+@Generated
 public class ClienteController {
     private final ClienteService service;
 
@@ -85,7 +87,7 @@ public class ClienteController {
             }
 
     )
-    public ClienteScoreDAO obterScore(@PathVariable Long id) {
+    public ClienteScoreDTO obterScore(@PathVariable Long id) {
         return service.obterScore(id);
     }
 }

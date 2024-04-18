@@ -4,7 +4,7 @@ import io.github.mateusdomelo.javer.client.ClienteFeignClient;
 import io.github.mateusdomelo.javer.domain.entity.Cliente;
 import io.github.mateusdomelo.javer.exception.ClienteNotFoundException;
 import io.github.mateusdomelo.javer.exception.NotFoundException;
-import io.github.mateusdomelo.javer.rest.dto.ClienteScoreDAO;
+import io.github.mateusdomelo.javer.rest.dto.ClienteScoreDTO;
 import io.github.mateusdomelo.javer.service.ClienteService;
 import org.springframework.stereotype.Service;
 
@@ -49,13 +49,13 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public ClienteScoreDAO obterScore(Long id) {
+    public ClienteScoreDTO obterScore(Long id) {
         try {
             Cliente cliente = feignClient.obterPorId(id);
-            return ClienteScoreDAO.builder()
-                    .nome(cliente.getNome())
-                    .score(cliente.getScoreCredito())
-                    .build();
+            ClienteScoreDTO clienteScoreDTO = new ClienteScoreDTO();
+            clienteScoreDTO.setNome(cliente.getNome());
+            clienteScoreDTO.setScore(cliente.getScoreCredito());
+            return clienteScoreDTO;
         } catch (NotFoundException e) {
             throw new ClienteNotFoundException(id);
         }
