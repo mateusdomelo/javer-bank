@@ -24,6 +24,8 @@ Os endpoints **REST** do **Serviço Javer de Armazenamento H2** são expostos po
 1. Garantir que os passos descritos na seção "_Como Executar_" foram realizados;
 2. Executar os testes usando o Maven: `mvn test`.
 
+O relatório de coverage gerado pela ferramenta _Jacoco_ pode ser visualizado através do "_index.html_" do diretório "_htmlReport_".
+
 ---
 ## Contatos
 Em caso de dúvidas, problemas ou sugestões, sinta-se à vontade para entrar em contato:
