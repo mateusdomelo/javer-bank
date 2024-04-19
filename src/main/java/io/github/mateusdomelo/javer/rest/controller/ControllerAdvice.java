@@ -1,5 +1,6 @@
 package io.github.mateusdomelo.javer.rest.controller;
 
+import feign.FeignException;
 import io.github.mateusdomelo.javer.exception.ClienteNotFoundException;
 import io.github.mateusdomelo.javer.rest.ApiFieldErrors;
 import io.github.mateusdomelo.javer.rest.RequestErrors;
@@ -31,5 +32,11 @@ public class ControllerAdvice {
                         .map(ObjectError::getDefaultMessage)
                         .toList()
         );
+    }
+
+    @ExceptionHandler(FeignException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public RequestErrors handleAnyFeignExceptions(FeignException ex) {
+        return new RequestErrors(ex.getMessage());
     }
 }

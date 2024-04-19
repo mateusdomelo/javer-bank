@@ -4,16 +4,14 @@ import io.github.mateusdomelo.javer.validation.NumericBalance;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import java.math.BigDecimal;
-
-public class NumericBalanceValidator implements ConstraintValidator<NumericBalance, BigDecimal> {
+public class NumericBalanceValidator implements ConstraintValidator<NumericBalance, Float> {
     @Override
     public void initialize(NumericBalance constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override
-    public boolean isValid(BigDecimal value, ConstraintValidatorContext context) {
-        return value != null && value.compareTo(BigDecimal.ZERO) >= 0;
+    public boolean isValid(Float value, ConstraintValidatorContext context) {
+        return value >= 0;
     }
 }
