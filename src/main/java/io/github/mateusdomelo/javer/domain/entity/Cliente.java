@@ -6,10 +6,8 @@ import io.github.mateusdomelo.javer.validation.NumericBalance;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.Generated;
 
 @Data
-@Generated
 public class Cliente {
     private Long id;
 
