@@ -16,7 +16,7 @@ public class SwaggerConfig {
 
     private Info apiInfo() {
         return new Info()
-                .title("Banco Javer | API")
+                .title("Javer Bank | Bridge API")
                 .description(
                         "API projetada para integração (leitura, escrita, atualização, exclusão)" +
                                 " com o banco de dados (H2)"
