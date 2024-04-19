@@ -3,18 +3,18 @@
 import io.github.mateusdomelo.javer.validation.NumericBalance;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.Generated;
 
-import java.math.BigDecimal;
-
-<span class="nc" id="L9">public class NumericBalanceValidator implements ConstraintValidator&lt;NumericBalance, BigDecimal&gt; {</span>
+<span class="fc" id="L8">public class NumericBalanceValidator implements ConstraintValidator&lt;NumericBalance, Float&gt; {</span>
     @Override
+    @Generated
     public void initialize(NumericBalance constraintAnnotation) {
-<span class="nc" id="L12">        ConstraintValidator.super.initialize(constraintAnnotation);</span>
-<span class="nc" id="L13">    }</span>
+        ConstraintValidator.super.initialize(constraintAnnotation);
+    }
 
     @Override
-    public boolean isValid(BigDecimal value, ConstraintValidatorContext context) {
-<span class="nc bnc" id="L17" title="All 4 branches missed.">        return value != null &amp;&amp; value.compareTo(BigDecimal.ZERO) &gt;= 0;</span>
+    public boolean isValid(Float value, ConstraintValidatorContext context) {
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        return value &gt;= 0;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
